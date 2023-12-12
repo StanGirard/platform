@@ -1,6 +1,14 @@
 import { DocumentArrowUpIcon } from '@heroicons/react/20/solid';
+
+
+
+
 const RFPContent = (): JSX.Element => {
+
+
+
   return (
+    <>
     <div className="text-center">
           <svg
             className="mx-auto h-12 w-12 text-gray-400"
@@ -29,6 +37,7 @@ const RFPContent = (): JSX.Element => {
             </button>
           </div>
         </div>
+        </>
   );
 };
 
