@@ -5,30 +5,38 @@ import {
   Bars3Icon,
   CalendarIcon,
   Cog6ToothIcon,
-  DocumentDuplicateIcon,
   FolderIcon,
-  HomeIcon,
   UsersIcon,
   XMarkIcon
 } from '@heroicons/react/24/outline';
 import { Fragment, useState } from 'react';
+import DocFinderContent from './components/DocFinderContent';
+import RFPContent from './components/RFPContent';
+import TheMeetContent from './components/TheMeetContent';
+
+
+
 
 const classNames = (...classes: string[]) => {
   return classes.filter(Boolean).join(' ');
 };
 
 const navigation = [
-  { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
   { name: 'The Meet', href: '#', icon: UsersIcon, current: false },
   { name: 'RFP', href: '#', icon: FolderIcon, current: false },
   { name: 'Doc Finder', href: '#', icon: CalendarIcon, current: false },
-  { name: 'Slides Generator', href: '#', icon: DocumentDuplicateIcon, current: false },
 ]
 
 
 const PlatformPage = (): JSX.Element => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [activePage, setActivePage] = useState('The Meet');
 
+  const handleNavigationClick = (pageName: string) => (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    event.preventDefault();
+    console.log(pageName);
+    setActivePage(pageName);
+  };
   return (
     <>
       <div>
@@ -88,25 +96,24 @@ const PlatformPage = (): JSX.Element => {
                           <ul role="list" className="-mx-2 space-y-1">
                             {navigation.map((item) => (
                               <li key={item.name}>
-                                <a
-                                  href={item.href}
+                              <a
+                                href="#"
+                                onClick={handleNavigationClick(item.name)}
+                                className={classNames(
+                                  activePage === item.name ? 'bg-gray-50 text-indigo-600' : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
+                                  'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                                )}
+                              >
+                                <item.icon
                                   className={classNames(
-                                    item.current
-                                      ? 'bg-gray-50 text-indigo-600'
-                                      : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
-                                    'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                                    activePage === item.name ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600',
+                                    'h-6 w-6 shrink-0'
                                   )}
-                                >
-                                  <item.icon
-                                    className={classNames(
-                                      item.current ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600',
-                                      'h-6 w-6 shrink-0'
-                                    )}
-                                    aria-hidden="true"
-                                  />
-                                  {item.name}
-                                </a>
-                              </li>
+                                  aria-hidden="true"
+                                />
+                                {item.name}
+                              </a>
+                            </li>
                             ))}
                           </ul>
                         </li>
@@ -144,32 +151,31 @@ const PlatformPage = (): JSX.Element => {
             </div>
             <nav className="flex flex-1 flex-col">
               <ul role="list" className="flex flex-1 flex-col gap-y-7">
-                <li>
-                  <ul role="list" className="-mx-2 space-y-1">
-                    {navigation.map((item) => (
-                      <li key={item.name}>
-                        <a
-                          href={item.href}
-                          className={classNames(
-                            item.current
-                              ? 'bg-gray-50 text-indigo-600'
-                              : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
-                            'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
-                          )}
-                        >
-                          <item.icon
-                            className={classNames(
-                              item.current ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600',
-                              'h-6 w-6 shrink-0'
-                            )}
-                            aria-hidden="true"
-                          />
-                          {item.name}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
+              <li>
+                          <ul role="list" className="-mx-2 space-y-1">
+                            {navigation.map((item) => (
+                              <li key={item.name}>
+                              <a
+                                href="#"
+                                onClick={handleNavigationClick(item.name)}
+                                className={classNames(
+                                  activePage === item.name ? 'bg-gray-50 text-indigo-600' : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
+                                  'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                                )}
+                              >
+                                <item.icon
+                                  className={classNames(
+                                    activePage === item.name ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600',
+                                    'h-6 w-6 shrink-0'
+                                  )}
+                                  aria-hidden="true"
+                                />
+                                {item.name}
+                              </a>
+                            </li>
+                            ))}
+                          </ul>
+                        </li>
                 <li className="mt-auto">
                   <a
                     href="#"
@@ -199,7 +205,12 @@ const PlatformPage = (): JSX.Element => {
             
 
           <main className="py-10">
-            <div className="px-4 sm:px-6 lg:px-8">{/* Your content */}</div>
+            <div className="px-4 sm:px-6 lg:px-8">
+              {activePage === 'The Meet' && <TheMeetContent />}
+              {activePage === 'RFP' && <RFPContent />}
+              {activePage === 'Doc Finder' && <DocFinderContent />}
+              {/* Add other page contents here */}
+            </div>
           </main>
         </div>
       </div>
