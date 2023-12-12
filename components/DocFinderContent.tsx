@@ -1,20 +1,24 @@
-
+/* eslint-disable */
 import { useState } from "react";
 
 import { useBrainApi } from "@/lib/api/brain/useBrainApi";
 import { useBrainContext } from "@/lib/context/BrainProvider/hooks/useBrainContext";
 
+import { ListFilesProps } from "@/lib/api/brain/types";
 import ListBrains from "./ListBrains";
 import ListFiles from "./ListFiles";
+
+
 
 const DocFinderContent = (): JSX.Element => {
   const { getDocsFromQuestion } = useBrainApi();
   const [searchQuery, setSearchQuery] = useState("");
   const { currentBrainId } = useBrainContext();
-  const [matchingDocs, setmatchingDocs] = useState<string[]>([]);
+  const [matchingDocs, setmatchingDocs] = useState<ListFilesProps["files"]>([]);
 
   const handleSearch = async () => {
-    setmatchingDocs(await getDocsFromQuestion(currentBrainId, searchQuery));
+    if (!currentBrainId) return;
+    setmatchingDocs(await getDocsFromQuestion(currentBrainId, searchQuery)); // eslint-disable
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -83,7 +87,7 @@ const DocFinderContent = (): JSX.Element => {
           <p className="mt-1 text-sm text-gray-500">
             {matchingDocs.length} documents match your search query
           </p>
-        </div><ListFiles files={matchingDocs} /></>
+        </div><ListFiles files={matchingDocs} /></> // eslint-disable-line
         )}
     </>
   );

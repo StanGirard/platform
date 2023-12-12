@@ -1,6 +1,4 @@
 
-
-/* Create a type for the props that the component will receive */
 type ListFilesProps = {
     files: {
         file_name: string;
@@ -12,8 +10,15 @@ type ListFilesProps = {
     }[];
 };
 
-const ListFiles = (props: ListFilesProps): JSX.Element => {
-    const { files } = props;
+export const ListFiles = ({ files }: ListFilesProps): JSX.Element => {
+    const filesBis = files.map((file) => ({
+        file_name: file.file_name,
+        file_sha1: file.file_sha1,
+        file_size: file.file_size,
+        file_url: file.file_url,
+        file_id: file.file_id,
+        file_similarity: file.file_similarity,
+    }));
 
     return (
         <div className="px-4 sm:px-6 lg:px-8">
@@ -41,7 +46,7 @@ const ListFiles = (props: ListFilesProps): JSX.Element => {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200 bg-white">
-                                {files.map((file) => (
+                                {filesBis.map((file) => (
                                     <tr key={file.file_sha1}>
                                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 lg:pl-8">
                                             {file.file_name}
@@ -63,5 +68,6 @@ const ListFiles = (props: ListFilesProps): JSX.Element => {
         </div>
     );
 };
+    
 
 export default ListFiles;
