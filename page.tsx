@@ -1,5 +1,7 @@
 /* eslint-disable */
 "use client";
+import { useSupabase } from '@/lib/context/SupabaseProvider';
+import { redirectToLogin } from '@/lib/router/redirectToLogin';
 import { Dialog, Transition } from '@headlessui/react';
 import {
   Bars3Icon,
@@ -13,7 +15,6 @@ import { Fragment, useState } from 'react';
 import DocFinderContent from './components/DocFinderContent';
 import RFPContent from './components/RFPContent';
 import TheMeetContent from './components/TheMeetContent';
-
 
 
 
@@ -32,6 +33,11 @@ const PlatformPage = (): JSX.Element => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activePage, setActivePage] = useState('The Meet');
 
+  const { session } = useSupabase();
+
+  if (!session) {
+    redirectToLogin();
+  }
   const handleNavigationClick = (pageName: string) => (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     event.preventDefault();
     console.log(pageName);
